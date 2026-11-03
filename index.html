@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#2f3440">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="学习系统">
+<link rel="manifest" href="manifest.json">
+<title>学习系统 · 课程门户</title>
+<style>
+  :root { --line:#e3e3dd; --muted:#8a8a84; --acc:#4f6df5; }
+  * { box-sizing:border-box; }
+  body { margin:0; font:15px/1.85 -apple-system,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+         color:#2b2b2b; background:#f7f7f5; min-height:100vh; }
+  header { background:#2f3440; color:#fff; padding:34px 24px 30px; }
+  header .in { max-width:1000px; margin:0 auto; }
+  header h1 { margin:0 0 6px; font-size:24px; }
+  header p { margin:0; opacity:.75; font-size:13.5px; }
+  .flow { max-width:1000px; margin:26px auto 8px; padding:0 24px; display:flex; flex-wrap:wrap; gap:8px; align-items:center; }
+  .flow .step { background:#fff; border:1px solid var(--line); border-radius:10px; padding:10px 16px; font-weight:700; font-size:14px; }
+  .flow .step small { display:block; font-weight:400; color:var(--muted); font-size:11.5px; }
+  .flow .arr { color:var(--muted); font-size:18px; }
+  .courses { max-width:1000px; margin:22px auto 40px; padding:0 24px; display:grid; grid-template-columns:repeat(auto-fill, minmax(420px, 1fr)); gap:18px; }
+  .ccard { background:#fff; border:1px solid var(--line); border-radius:16px; padding:22px 24px; }
+  .ccard h2 { margin:0 0 4px; font-size:19px; }
+  .ccard .author { color:var(--muted); font-size:12.5px; margin-bottom:14px; }
+  .ccard .bk { margin:0 0 14px; display:flex; gap:8px; }
+  @media (max-width: 760px){
+    body { font-size:14px; }
+    .courses { grid-template-columns:1fr; padding:0 14px; }
+    .flow { padding:0 14px; }
+    .howto { margin:0 14px 26px; }
+    .note { padding:0 14px; }
+    .stat { gap:10px; } .stat div { flex:1; text-align:center; padding:8px 6px; }
+    header { padding:26px 16px 22px; }
+  }
+  .stat { display:flex; gap:18px; margin:12px 0 16px; flex-wrap:wrap; }
+  .stat div { background:#f6f7fb; border-radius:10px; padding:8px 14px; font-size:12.5px; }
+  .stat b { display:block; font-size:19px; color:var(--acc); }
+  .open { display:inline-block; background:var(--acc); color:#fff; text-decoration:none; border-radius:10px; padding:9px 22px; font-weight:600; font-size:14px; }
+  .open:hover { opacity:.92; }
+  .btn { border:1px solid var(--line); background:#fff; border-radius:8px; padding:7px 14px; font-size:13px; cursor:pointer; color:#555; }
+  .btn:hover { background:#f1f1ec; }
+  #syncCard input[type=text], #syncCard input[type=password] { padding:8px 12px; border:1px solid var(--line); border-radius:8px; font-size:13px; outline:none; flex:1; min-width:170px; }
+  #syncCard input:focus { border-color:#a8bdff; }
+  #sync-status { color:var(--muted); }
+  .note { max-width:1000px; margin:0 auto 50px; padding:0 24px; color:var(--muted); font-size:12.5px; }
+  .howto { max-width:1000px; margin:0 auto 30px; padding:18px 24px; background:#fff; border:1px solid var(--line); border-radius:14px; }
+  .howto h3 { margin:0 0 8px; font-size:15px; }
+  .howto ol { margin:6px 0 0; padding-left:22px; }
+</style>
+</head>
+<body>
+<header><div class="in">
+  <h1>学习系统 · 课程门户</h1>
+  <p>预习 → 学习 → 案例解析 → 测试 → 考试备考 → 复习 → 刷题，全流程覆盖</p>
+</div></header>
+
+<div class="flow">
+  <div class="step">① 预习<small>5 分钟搞清每章要解决什么</small></div><div class="arr">→</div>
+  <div class="step">② 学习<small>讲义精读 · 导图检索 · 大纲速览</small></div><div class="arr">→</div>
+  <div class="step">③ 案例解析<small>真实公司案例，先想再看</small></div><div class="arr">→</div>
+  <div class="step">④ 测试<small>每章问答自测，标记掌握度</small></div><div class="arr">→</div>
+  <div class="step">⑤ 考试备考<small>每章 10 条考前速记</small></div><div class="arr">→</div>
+  <div class="step">⑥ 复习<small>1/3/7/14/30 天间隔排程</small></div><div class="arr">→</div>
+  <div class="step">⑦ 刷题<small>选择题即时判分 + 错题本</small></div>
+</div>
+
+<div class="courses">
+  <div class="ccard">
+    <h2>会计学（第4版）</h2>
+    <div class="author">陆正飞 黄慧馨 李琦 · 北京大学出版社 · 14 章</div>
+    <div class="stat">
+      <div><b id="acc-learned">–</b>已预习章节</div>
+      <div><b id="acc-qa">–</b>自测掌握度</div>
+      <div><b id="acc-mc">–</b>刷题正确率</div>
+      <div><b id="acc-review">–</b>今日待复习</div>
+    </div>
+    <div class="bk">
+      <button class="open" style="padding:8px 16px" onclick="location.href='会计学-学习系统.html'">进入学习系统 →</button>
+      <button class="open" style="background:#fff;color:#555;border:1px solid var(--line)" onclick="exportProgress('accounting','会计学')">⬇ 备份</button>
+      <button class="open" style="background:#fff;color:#555;border:1px solid var(--line)" onclick="importProgress('accounting')">⬆ 恢复</button>
+      <input type="file" id="imp-accounting" accept=".json" style="display:none" onchange="onImportFile('accounting', this)">
+    </div>
+  </div>
+  <div class="ccard">
+    <h2>管理学（第15版）</h2>
+    <div class="author">斯蒂芬·罗宾斯 玛丽·库尔特 · 中国人民大学出版社 · 18 章</div>
+    <div class="stat">
+      <div><b id="mgr-learned">–</b>已预习章节</div>
+      <div><b id="mgr-qa">–</b>自测掌握度</div>
+      <div><b id="mgr-mc">–</b>刷题正确率</div>
+      <div><b id="mgr-review">–</b>今日待复习</div>
+    </div>
+    <div class="bk">
+      <button class="open" style="padding:8px 16px" onclick="location.href='管理学-学习系统.html'">进入学习系统 →</button>
+      <button class="open" style="background:#fff;color:#555;border:1px solid var(--line)" onclick="exportProgress('management','管理学')">⬇ 备份</button>
+      <button class="open" style="background:#fff;color:#555;border:1px solid var(--line)" onclick="importProgress('management')">⬆ 恢复</button>
+      <input type="file" id="imp-management" accept=".json" style="display:none" onchange="onImportFile('management', this)">
+    </div>
+  </div>
+  <div class="ccard">
+    <h2>组织行为学（第18版）</h2>
+    <div class="author">斯蒂芬·罗宾斯 蒂莫西·贾奇 · 18 章</div>
+    <div class="stat">
+      <div><b id="ob-learned">–</b>已预习章节</div>
+      <div><b id="ob-qa">–</b>自测掌握度</div>
+      <div><b id="ob-mc">–</b>刷题正确率</div>
+      <div><b id="ob-review">–</b>今日待复习</div>
+    </div>
+    <div class="bk">
+      <button class="open" style="padding:8px 16px" onclick="location.href='组织行为学-学习系统.html'">进入学习系统 →</button>
+      <button class="open" style="background:#fff;color:#555;border:1px solid var(--line)" onclick="exportProgress('ob','组织行为学')">⬇ 备份</button>
+      <button class="open" style="background:#fff;color:#555;border:1px solid var(--line)" onclick="importProgress('ob')">⬆ 恢复</button>
+      <input type="file" id="imp-ob" accept=".json" style="display:none" onchange="onImportFile('ob', this)">
+    </div>
+  </div>
+  <div class="ccard">
+    <h2>行为投资学</h2>
+    <div class="author">阿科特/迪弗斯《行为金融》× 蒙蒂尔《行为金融学》 · 9 篇 23 章</div>
+    <div class="stat">
+      <div><b id="bv-learned">–</b>已预习章节</div>
+      <div><b id="bv-qa">–</b>自测掌握度</div>
+      <div><b id="bv-mc">–</b>刷题正确率</div>
+      <div><b id="bv-review">–</b>今日待复习</div>
+    </div>
+    <div class="bk">
+      <button class="open" style="padding:8px 16px" onclick="location.href='行为投资学-学习系统.html'">进入学习系统 →</button>
+      <button class="open" style="background:#fff;color:#555;border:1px solid var(--line)" onclick="exportProgress('behavior','行为投资学')">⬇ 备份</button>
+      <button class="open" style="background:#fff;color:#555;border:1px solid var(--line)" onclick="importProgress('behavior')">⬆ 恢复</button>
+      <input type="file" id="imp-behavior" accept=".json" style="display:none" onchange="onImportFile('behavior', this)">
+    </div>
+  </div>
+  <div class="ccard">
+    <h2>微观经济学（曼昆·第8版）</h2>
+    <div class="author">N·格里高利·曼昆 · 北京大学出版社 · 7 篇 22 章</div>
+    <div class="stat">
+      <div><b id="mi-learned">–</b>已预习章节</div>
+      <div><b id="mi-qa">–</b>自测掌握度</div>
+      <div><b id="mi-mc">–</b>刷题正确率</div>
+      <div><b id="mi-review">–</b>今日待复习</div>
+    </div>
+    <div class="bk">
+      <button class="open" style="padding:8px 16px" onclick="location.href='微观经济学-学习系统.html'">进入学习系统 →</button>
+      <button class="open" style="background:#fff;color:#555;border:1px solid var(--line)" onclick="exportProgress('micro','微观经济学')">⬇ 备份</button>
+      <button class="open" style="background:#fff;color:#555;border:1px solid var(--line)" onclick="importProgress('micro')">⬆ 恢复</button>
+      <input type="file" id="imp-micro" accept=".json" style="display:none" onchange="onImportFile('micro', this)">
+    </div>
+  </div>
+  <div class="ccard">
+    <h2>宏观经济学（曼昆·第8版）</h2>
+    <div class="author">N·格里高利·曼昆 · 北京大学出版社 · 6 篇 14 章（第23–36章）</div>
+    <div class="stat">
+      <div><b id="ma-learned">–</b>已预习章节</div>
+      <div><b id="ma-qa">–</b>自测掌握度</div>
+      <div><b id="ma-mc">–</b>刷题正确率</div>
+      <div><b id="ma-review">–</b>今日待复习</div>
+    </div>
+    <div class="bk">
+      <button class="open" style="padding:8px 16px" onclick="location.href='宏观经济学-学习系统.html'">进入学习系统 →</button>
+      <button class="open" style="background:#fff;color:#555;border:1px solid var(--line)" onclick="exportProgress('macro','宏观经济学')">⬇ 备份</button>
+      <button class="open" style="background:#fff;color:#555;border:1px solid var(--line)" onclick="importProgress('macro')">⬆ 恢复</button>
+      <input type="file" id="imp-macro" accept=".json" style="display:none" onchange="onImportFile('macro', this)">
+    </div>
+  </div>
+</div>
+
+<div class="howto" id="syncCard">
+  <h3>多设备同步（可选，强烈建议配置）</h3>
+  <p style="margin:4px 0 10px;color:#555">配置后，任意设备（Mac/iPad/iPhone）的学习进度自动合并互通——数据存放在你自己的 GitHub 私有仓库 <code>study-progress</code>，他人不可见。每台设备都需完成一次本配置（粘贴同一个 Token）。</p>
+  <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+    <input id="sync-device" type="text" placeholder="设备名称（如 MacBook / iPad）">
+    <input id="sync-token" type="password" placeholder="GitHub Token（需 repo 权限）" autocomplete="off">
+    <input id="sync-repo" type="text" value="zyu-629/study-progress">
+  </div>
+  <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:10px">
+    <label style="font-size:13px;display:flex;align-items:center;gap:5px"><input type="checkbox" id="sync-auto" checked> 自动同步</label>
+    <button class="btn" id="sync-save">保存配置</button>
+    <button class="btn" id="sync-pull">⬇ 立即拉取合并</button>
+    <button class="btn" id="sync-push">⬆ 立即推送</button>
+    <span id="sync-status"></span>
+  </div>
+</div>
+
+<div class="howto">
+  <h3>推荐的完整学习循环</h3>
+  <ol>
+    <li>进课程页「① 预习」：花 5 分钟读预习卡，点「开始学习」进入讲义精读本章；</li>
+    <li>读完正文立刻做「④ 测试」的自测问答，诚实标记答对/答错；</li>
+    <li>合上讲义去「③ 案例解析」先自己想，再展开解析对照；</li>
+    <li>「⑦ 刷题」按章刷选择题，错的题自动进错题本，考前用「错题重练」；</li>
+    <li>每天打开门户看「今日待复习」，按间隔重复回看；考前过一遍「⑤ 考试备考」的速记清单。</li>
+  </ol>
+  <p style="margin:10px 0 0">进度保存在本浏览器的本地存储中——请始终用同一个浏览器打开各页面，进度即可互通。</p>
+</div>
+
+<div class="note">课程内容基于指定教材整理，用于个人学习；示例数字均为教学设计。门户与课程页通过浏览器本地存储（localStorage）同步进度；配置「多设备同步」后经 GitHub 私有仓库跨设备互通。</div>
+
+<script src="sync.js"></script>
+<script>
+function read(k){ try { return JSON.parse(localStorage.getItem(k) || "{}"); } catch(e){ return {}; } }
+function stat(prefix, key, total){
+  const d = read("study_sys_" + key);
+  const learned = Object.keys(d.learned || {}).length;
+  document.getElementById(prefix + "-learned").textContent = learned + "/" + total;
+  // 自测掌握度
+  let good = 0, seen = 0;
+  Object.values(d.qa || {}).forEach(ch => Object.values(ch).forEach(v => { seen++; if (v === 1) good++; }));
+  document.getElementById(prefix + "-qa").textContent = seen ? Math.round(good / seen * 100) + "%" : "–";
+  // 刷题正确率
+  let ok = 0, done = 0;
+  const mc = d.mc || {};
+  Object.values(mc).forEach(ch => Object.entries(ch).forEach(([i, v]) => { done++; if (v !== "__wrong_only__") {} }));
+  document.getElementById(prefix + "-mc").textContent = done ? "见课内" : "–";
+  // 今日待复习（与课程页同逻辑：未打卡复习记录的章节按预习日起算第 0 轮）
+  const now = Date.now(), day = 86400000;
+  const IV = [1, 3, 7, 14, 30];
+  let due = 0;
+  Object.entries(d.learned || {}).forEach(([no, ts]) => {
+    const r = (d.reviews || {})[no] || { round: 0, lastTs: ts };
+    const round = Math.min(r.round || 0, IV.length);
+    if (round >= IV.length) return;
+    if (now >= (r.lastTs || 0) + IV[round] * day) due++;
+  });
+  document.getElementById(prefix + "-review").textContent = due;
+}
+// 同步配置卡
+(function(){
+  const c = StudySync.cfg();
+  document.getElementById('sync-device').value = c.device || '';
+  document.getElementById('sync-repo').value = c.repo || 'zyu-629/study-progress';
+  document.getElementById('sync-auto').checked = c.auto !== false;
+  document.getElementById('sync-status').textContent = c.token ? '已配置（Token 保存在本设备）' : '未配置';
+})();
+document.getElementById('sync-save').onclick = function(){
+  const c = StudySync.cfg();
+  c.device = document.getElementById('sync-device').value.trim() || 'unknown';
+  const tok = document.getElementById('sync-token').value.trim();
+  if (tok) c.token = tok;
+  c.repo = document.getElementById('sync-repo').value.trim() || 'zyu-629/study-progress';
+  c.auto = document.getElementById('sync-auto').checked;
+  StudySync.saveCfg(c);
+  document.getElementById('sync-token').value = '';
+  document.getElementById('sync-status').textContent = '配置已保存' + (c.token ? '（Token 已存本设备）' : '（尚未填 Token）');
+};
+document.getElementById('sync-pull').onclick = async function(){
+  const s = document.getElementById('sync-status'); s.textContent = '拉取中…';
+  const r = await StudySync.pullMerge(); s.textContent = r.msg; render();
+};
+document.getElementById('sync-push').onclick = async function(){
+  const s = document.getElementById('sync-status'); s.textContent = '推送中…';
+  const r = await StudySync.pushNow(); s.textContent = r.msg;
+};
+function exportProgress(key, label){
+  const blob = new Blob([JSON.stringify(read(key), null, 1)], { type: "application/json" });
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = key + "-进度备份-" + new Date().toISOString().slice(0, 10) + ".json";
+  a.click();
+  setTimeout(() => URL.revokeObjectURL(a.href), 2000);
+}
+function importProgress(key){
+  const inp = document.getElementById("imp-" + key);
+  inp.click();
+}
+function onImportFile(key, input){
+  const f = input.files && input.files[0]; if (!f) return;
+  const rd = new FileReader();
+  rd.onload = () => {
+    try {
+      const imported = JSON.parse(rd.result);
+      const cur = read(key);
+      for (const no of Object.keys(imported.learned || {})){
+        cur.learned = cur.learned || {};
+        if (!cur.learned[no] || imported.learned[no] > cur.learned[no]) cur.learned[no] = imported.learned[no];
+      }
+      for (const no of Object.keys(imported.reviews || {})){
+        cur.reviews = cur.reviews || {};
+        const a = imported.reviews[no], b = cur.reviews[no];
+        if (!b || (a.lastTs || 0) > (b.lastTs || 0)) cur.reviews[no] = a;
+      }
+      for (const map of ["qa", "mc", "cram"]){
+        cur[map] = cur[map] || {};
+        for (const no of Object.keys(imported[map] || {})){
+          cur[map][no] = Object.assign({}, cur[map][no] || {}, imported[map][no]);
+        }
+      }
+      try { localStorage.setItem("study_sys_" + key, JSON.stringify(cur)); } catch(e){}
+      render();
+      if (window.StudySync) StudySync.pushSoon();
+    } catch(err){ alert("导入失败：文件格式不正确"); }
+    input.value = "";
+  };
+  rd.readAsText(f);
+}
+function render(){
+  stat("acc", "accounting", 14);
+  stat("mgr", "management", 18);
+  stat("ob", "ob", 18);
+  stat("bv", "behavior", 23);
+  stat("mi", "micro", 22);
+  stat("ma", "macro", 14);
+}
+render();
+</script>
+</body>
+</html>

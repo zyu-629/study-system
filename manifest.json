@@ -1,0 +1,15 @@
+{
+  "name": "学习系统 · 课程门户",
+  "short_name": "学习系统",
+  "description": "六门课程 · 预习-学习-案例解析-测试-考试备考-复习-刷题 全流程",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#f7f7f5",
+  "theme_color": "#4f6df5",
+  "icons": [
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ]
+}
