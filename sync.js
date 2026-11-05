@@ -3,6 +3,16 @@
   if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost')) {
     window.addEventListener('load', function () {
       navigator.serviceWorker.register('sw.js').catch(function () {});
+      // 新 SW 接管时（有内容更新）自动刷新一次，确保拿到最新页面
+      let refreshed = false;
+      navigator.serviceWorker.addEventListener('controllerchange', function () {
+        if (refreshed) return;
+        refreshed = true;
+        if (!sessionStorage.getItem('sw-reloaded')) {
+          sessionStorage.setItem('sw-reloaded', '1');
+          location.reload();
+        }
+      });
     });
   }
   const CFG_KEY = 'study_sync_cfg';
